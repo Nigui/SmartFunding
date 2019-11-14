@@ -1,0 +1,45 @@
+html,body{
+    padding: 3rem;
+}
+
+.row{
+    padding: inherit;
+    font-size: 1.3em;
+}
+
+
+h1{
+    font-size: 4.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: .5em;
+    font-variant-caps: all-petite-caps;
+}
+
+.fab,.fas {
+    font-size: xx-large;
+    text-align: center;
+}
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+
+.btn{
+    width: 40%;
+    height: 5rem;
+    font-size: 1.5rem;
+    font-variant-caps: all-petite-caps;
+}
+
+
+.notification{
+    text-align: center;
+    padding: .5em;
+    margin: 2rem;
+    width: 22rem;
+    border-radius: 15px;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,.12),0 10px 36px -4px rgba(0, 0, 0, 0.41);
+}

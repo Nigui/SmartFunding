@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  <link rel="stylesheet" href="style.css">
+
+  <title>SmartFunding</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 class="text-primary">SmartFunding</h1>
+
+    <div class="row mb-1">
+      <span class="col-1 fas fa-users text-primary"></span>
+      <div class="col-11">
+        <span id="nb_donators">-</span>
+        donators
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <span class="col-1 fab fa-ethereum text-primary"></span>
+      <div class="col-11">
+        <span id="amount">-</span>
+        /
+        <span id="goal">-</span>
+        Ethers
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <span class="col-1 fas fa-wallet text-primary"></span>
+      <span id="address" class="col-11">-</span>
+    </div>
+
+    <div class="row">
+      <span class="col-1 fas fa-hand-holding-heart text-primary"></span>
+      <div class="col-11">
+        <span id="donation">-</span> Ethers
+      </div>
+    </div>
+
+    <div class="row buttons">
+      <button id="donate" class="btn btn-primary">Donate</button>
+      <button id="withdraw" class="btn btn-outline-primary">Withdraw</button>
+    </div>
+  </div>
+
+  <script src="https://kit.fontawesome.com/d9f956556b.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script> 
+  <script src="script.js"></script>
+
+</body>
+
+</html>
