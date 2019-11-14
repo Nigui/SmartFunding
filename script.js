@@ -1,5 +1,5 @@
 
-const CONTRACT_ADDRESS = "0x5a55B7FF38Db8A3AfEf66d93802d2FBC75C41865"
+const CONTRACT_ADDRESS = "0xd9540EEb60F5DC20341E703800216847B32888E2"
 
 var SmartFunding, web3, account;
 
@@ -33,17 +33,13 @@ const Setup = {
     },
     ui: () => {
 
-        ["nbDonators","goal","amount","donation","address"]
-            .forEach((e)=>{
-                Data[e].get().then(Data[e].set);
-            });
+        Actions.refreshUI();
     
         Helpers.onclick("donate",Listeners.onDonateClicked)
         Helpers.onclick("withdraw",Listeners.onWithdrawClicked)
     
     },
     events: () => {
-        SmartFunding.once("NewDonation",{filter:{donator:account}},Listeners.onNewDonation)
         SmartFunding.once("NewDonation",Listeners.onNewDonator)
         SmartFunding.once("GoalReached",Listeners.onGoalReached)
     },
@@ -69,24 +65,27 @@ const Data = {
         set: (g)=>{
             Helpers.updateTag('goal',g);
         },
-        get: ()=>{
-            return Helpers.call("minimum")
+        get: async ()=>{
+            const amount = await Helpers.call("minimum");
+            return web3.utils.fromWei(amount,"ether")
         }
     },
     amount: {
         set: (a)=>{
            Helpers.updateTag('amount',a);
         },
-        get: ()=>{
-            return Helpers.call("amount");
+        get: async ()=>{
+            const amount = await Helpers.call("amount");
+            return web3.utils.fromWei(amount,"ether")
         }
     },
     donation: {
         set: (d)=>{
             Helpers.updateTag('donation',d);
         },
-        get: ()=>{
-            return SmartFunding.methods.donators(account).call();
+        get: async ()=>{
+            const amount = await SmartFunding.methods.donators(account).call();
+            return web3.utils.fromWei(amount,"ether")
         }
     },
     address: {
@@ -95,6 +94,11 @@ const Data = {
         },
         get: ()=>{
             return Promise.resolve(account)
+        }
+    },
+    owner: {
+        get: ()=>{
+            return Helpers.call("owner");
         }
     }
 }
@@ -114,30 +118,40 @@ const Helpers = {
 
 const Listeners = {
     onGoalReached: () => {
-        Actions.notify("goal reached");
-    },
-    onNewDonation: () => {
-        Helpers.donation.get().then(Helpers.donation.set);
+        Actions.notify("goal reached",true);
+        Actions.refreshUI();
     },
     onNewDonator: (error,event) => {
         if( error ) console.error(error);
         else {
-            const { donator, amount } = event.returnValues
-            console.log("new donator",donator,amount);
-            Actions.notify("new donator");
+            console.log("new donator",event.returnValues.donator,event.returnValues.amount);
+            Actions.notify("new donation");
+            Actions.refreshUI();
         }
     },
     onDonateClicked: ()=>{
-        Actions.notify("donate");
+        Actions.donate();
     },
     onWithdrawClicked: ()=>{
-        Actions.notify("withdraw",true);
+        Actions.withdraw();
     }
 }
 
 const Actions = {
     notify: (text,success=false)=>{
         Toastify({ text, duration: 3000, backgroundColor: success? "#1DB100" : "#929292", className: "notification" }).showToast();
+    },
+    donate: (amount="0.01")=>{
+        SmartFunding.methods.donate().send({from: account,value: web3.utils.toWei(amount)})
+    },
+    withdraw: ()=>{
+        SmartFunding.methods.donate().send({from: account})
+    },
+    refreshUI: ()=>{
+        ["nbDonators","goal","amount","donation","address"]
+            .forEach((e)=>{
+                Data[e].get().then(Data[e].set);
+            });
     }
 }
 
