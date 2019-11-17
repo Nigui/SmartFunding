@@ -1,5 +1,5 @@
 
-const CONTRACT_ADDRESS = "0xd9540EEb60F5DC20341E703800216847B32888E2"
+const CONTRACT_ADDRESS = "0x2764dA8A1b5e3f8bBFD213aBfEf4826b17add66b"
 
 var SmartFunding, web3, account;
 
@@ -130,7 +130,8 @@ const Listeners = {
         }
     },
     onDonateClicked: ()=>{
-        Actions.donate();
+        const amount = document.getElementById("donate-amount").value;
+        Actions.donate(amount);
     },
     onWithdrawClicked: ()=>{
         Actions.withdraw();
@@ -142,10 +143,11 @@ const Actions = {
         Toastify({ text, duration: 3000, backgroundColor: success? "#1DB100" : "#929292", className: "notification" }).showToast();
     },
     donate: (amount="0.01")=>{
+        console.log("donate",amount);
         SmartFunding.methods.donate().send({from: account,value: web3.utils.toWei(amount)})
     },
     withdraw: ()=>{
-        SmartFunding.methods.donate().send({from: account})
+        SmartFunding.methods.withdraw().send({from: account})
     },
     refreshUI: ()=>{
         ["nbDonators","goal","amount","donation","address"]
